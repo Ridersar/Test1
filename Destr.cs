@@ -5,7 +5,8 @@ using System.Collections;
 public class Destr : MonoBehaviour
 {
 
-    //[Range(1.0f, 10.0f)]
+    [Range(0.0f, 10.0f)]
+    public float rad;
     float StartDelay = 3f; //начальное значение задержки
     float Delay = 0f; //обновляемое значение задержки
     public GameObject explosion; //игровой объект
@@ -33,7 +34,7 @@ public class Destr : MonoBehaviour
             while (--i >= 0)
             {
                 GameObject obj = list[i];
-                if (Vector3.Distance(obj.transform.position, playerExplosion.transform.position) < 3.75f)//находится ли враг внутри радиуса
+                if (Vector3.Distance(obj.transform.position, playerExplosion.transform.position) < rad + 0.5f)//находится ли враг внутри радиуса
                     Destroy(obj.gameObject);
             }
 
