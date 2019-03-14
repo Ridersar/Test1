@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System;
 using System.Collections;
 
@@ -7,16 +8,17 @@ public class Destr : MonoBehaviour
 
     [Range(0.0f, 10.0f)]
     public float rad;
-    float StartDelay = 3f; //начальное значение задержки
-    float Delay = 0f; //обновляемое значение задержки
+    public static float StartDelay = 3f; //начальное значение задержки
+    public static float Delay = 0f; //обновляемое значение задержки
     public GameObject explosion; //игровой объект
     public GameObject playerExplosion; //игровой объект
-    int hp = 3;
+    public static int hp = 3;
     GameObject player;
     void Start()
     {
-
+        //GameObject[] list = GameObject.FindGameObjectsWithTag("tg");
     }
+    
 
     void OnCollisionEnter(Collision collision) //исключить землю
     {
@@ -29,7 +31,7 @@ public class Destr : MonoBehaviour
 
     void OnTriggerStay(Collider other)
     {
-        if (Input.GetKeyDown(KeyCode.Q) && this.Delay < 0 && other.tag == "tg")
+        if (Input.GetKeyDown(KeyCode.Q) && Delay < 0 && other.tag == "tg")
         {
             GameObject[] list = GameObject.FindGameObjectsWithTag("tg");
             int i = list.Length;
@@ -50,8 +52,8 @@ public class Destr : MonoBehaviour
     {
         if (hp <= 0)
             Destroy(playerExplosion);
-        this.Delay -= Time.deltaTime;
-        if (this.Delay > 0) return;
+        Delay -= Time.deltaTime;
+        if (Delay > 0) return;
         playerExplosion.GetComponent<Renderer>().material.color = Color.white;
 
         player = GameObject.FindWithTag("tg");
@@ -65,6 +67,6 @@ public class Destr : MonoBehaviour
 
     void RefreshDelay() //обновление задержки
     {
-        this.Delay = this.StartDelay;
+        Delay = StartDelay;
     }
 }
