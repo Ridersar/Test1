@@ -11,22 +11,24 @@ public class Destr : MonoBehaviour
     float Delay = 0f; //обновляемое значение задержки
     public GameObject explosion; //игровой объект
     public GameObject playerExplosion; //игровой объект
+    int hp = 3;
+    GameObject player;
     void Start()
     {
-        //StartCoroutine(Example());
-        //this.Delay = this.StartDelay;
+
     }
 
-    //IEnumerator Reload()
-    //{
-    //    playerExplosion.GetComponent<Renderer>().material.color = Color.red;
-    //    yield return new WaitForSeconds(3);
-    //    playerExplosion.GetComponent<Renderer>().material.color = Color.white;
-    //}
+    void OnCollisionEnter(Collision collision) //исключить землю
+    {
+        if (collision.gameObject.tag == "tg")
+        { 
+            hp -= 1;
+            Destroy(collision.gameObject);
+        }
+    }
 
     void OnTriggerStay(Collider other)
     {
-        //exp.isTrigger = false;
         if (Input.GetKeyDown(KeyCode.Q) && this.Delay < 0 && other.tag == "tg")
         {
             GameObject[] list = GameObject.FindGameObjectsWithTag("tg");
@@ -37,29 +39,20 @@ public class Destr : MonoBehaviour
                 if (Vector3.Distance(obj.transform.position, playerExplosion.transform.position) < rad + 0.5f)//находится ли враг внутри радиуса
                     Destroy(obj.gameObject);
             }
-
-            //Destroy(explosion);
-
-            //Destroy(other.gameObject);
             if (other.gameObject == null)
                 Debug.Log("BANan");
-            //StartCoroutine(Reload());
-            //System.Threading.Thread.Sleep(5000); //задержка все системы
-            //new WaitForSeconds(3);
             playerExplosion.GetComponent<Renderer>().material.color = Color.black;
-            Debug.Log("BAN");
             this.RefreshDelay();
         }
     }
-
-    GameObject player;
+    
     void Update()
     {
+        if (hp <= 0)
+            Destroy(playerExplosion);
         this.Delay -= Time.deltaTime;
         if (this.Delay > 0) return;
-        //Debug.Log("Tick!");
         playerExplosion.GetComponent<Renderer>().material.color = Color.white;
-        //this.RefreshDelay();
 
         player = GameObject.FindWithTag("tg");
         if (Input.GetKeyDown(KeyCode.I))
