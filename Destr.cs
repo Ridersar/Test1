@@ -12,11 +12,13 @@ public class Destr : MonoBehaviour
     public static float Delay = 0f; //обновляемое значение задержки
     public GameObject explosion; //игровой объект
     public GameObject playerExplosion; //игровой объект
+    //[Range(1, 10)]
+   // public int hp_start;
     public static int hp = 3;
     GameObject player;
+
     void Start()
     {
-        //GameObject[] list = GameObject.FindGameObjectsWithTag("tg");
     }
     
 
